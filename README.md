@@ -10,5 +10,5 @@ Code supporting the paper "Europe’s land take: revealing loss of nature and cr
 1. Access the GEE code editor: [https://code.earthengine.google.com](https://code.earthengine.google.com).
 2. Upload and run scripts in the `gee-scripts/` folder.
 
-### R Environment
+### R Environment - R version 4.4.1
 1. Install required R packages by listed at the top of each R script.
