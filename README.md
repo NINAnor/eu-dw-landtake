@@ -40,5 +40,5 @@ The scripts are run in this order, with some hidden steps inbetween which are un
 12. Run "gee-scripts/7_sensitivity_analysis_export.js" in GEE. This exports strata areas for different linear trend thresholds and buffer delineations.
 13. Run "r-scripts/7_sensitivity_analysis.R" in R. This processes the data from previous step and visualizes results.
 
-In between steps 8 and 10 in the above sequence is perhaps the most vital piece of the entire workflow: the reference data collection. We used an app hosted in Google Earth Engine Apps which pushed data to a Google Sheet database. The app source code is provided here: "gee-scripts/sampling_app.js" The app will of course have to be adjusted so that it references GEE assets that are not private/outdated.
+In between steps 8 and 10 in the above sequence is perhaps the most vital piece of the entire workflow: the reference data collection. We used an app hosted in Google Earth Engine Apps which pushed data to a Google Sheet database. The app source code is provided here: "gee-scripts/sampling_app.js" The code for the cribsheet app is here: "gee-scripts/sampling_app_cribsheet.js" The app will of course have to be adjusted so that it references GEE assets that are not private/outdated.
 
