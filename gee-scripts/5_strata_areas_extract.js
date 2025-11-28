@@ -18,6 +18,9 @@
  * 1. Define countries which we will iterate overa------------------------------------+-------------------------------
  */
 
+// Export projection
+var proj = ee.Projection('EPSG:3035').atScale(10)
+
 //// Countries ---------------------------------------
 var countries = ee.FeatureCollection('users/zandersamuel/Global_misc/GISCO_CNT_RG_01M_2024');
 Map.addLayer(countries, {}, 'countries raw', 0)
@@ -232,8 +235,6 @@ strataImg = strataImg.updateMask(landMask).selfMask();
 Map.addLayer(strataImg, {min:1, max:6, palette:['white', 'grey', 'orange', 'red', 'black', 'pink']}, 'strataImg', 0)
 
 
-
-
 /***
  * 3. Get strata areas and export to Drive -> R ------------------------------------------------------
  */
@@ -272,17 +273,13 @@ function getStratAreas(stratImage, aoi,  scale, proj){
 var list= countries.reduceColumns(ee.Reducer.toList(), ['ISO3_CODE']).get('list').evaluate(function(list){
   print(list)
   
-  //list = ['ESP']
+  //list = ['AUT']
   
-  for (var i = 0; i<0; i++){
+  for (var i = 0; i<2; i++){
     var id = list[i]
     var aoi = countries.filter(ee.Filter.eq('ISO3_CODE', id)).geometry();
     
     var strataImgGrid = strataImg.clip(aoi)
-    
-    var aoiCentroid = aoi.bounds().centroid(10)
-    var proj = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
-      .filterBounds(aoiCentroid).first().select(1).projection()
     
     var stratAreas = getStratAreas(strataImgGrid, aoi,  10, proj);
     
@@ -300,7 +297,7 @@ var list= countries.reduceColumns(ee.Reducer.toList(), ['ISO3_CODE']).get('list'
     
   }
 })
-
+throw('s')
 /***
  * 4. Aggregate to grid for visualization in R ------------------------------------------------------
  */
@@ -361,8 +358,6 @@ var list= grid.reduceColumns(ee.Reducer.toList(), ['CellCode']).get('list').eval
     var strataImgGrid = strataImg.clip(aoi)
     var strataImgLossGrid = strataImgLoss.clip(aoi)
     
-    var proj = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED").filterBounds(aoi).first().select(1).projection()
-    
     var areas = getStratAreas(strataImgGrid, aoi,  10, proj);
     var areasLoss = getStratAreas(strataImgLossGrid, aoi,  10, proj);
     areas = areas.map(function(ft){
@@ -407,8 +402,6 @@ var list= grid.reduceColumns(ee.Reducer.toList(), ['CellCode']).get('list').eval
     var aoi = grid.filter(ee.Filter.eq('CellCode', id)).geometry();
     var strataImgGrid = strataImg.clip(aoi)
     var strataImgLossGrid = strataImgLoss.clip(aoi)
-    
-    var proj = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED").filterBounds(aoi).first().select(1).projection()
     
     var areas = getStratAreas(strataImgGrid, aoi,  10, proj);
     var areasLoss = getStratAreas(strataImgLossGrid, aoi,  10, proj);
