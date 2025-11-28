@@ -1,4 +1,4 @@
- /**
+/**
  * This script extracts strata areas and mapped labels for a sensitivity analysis
  * aimed at testing the effect of (1) the buffer stratum definition and (2) the trend threshold selection
  * 
@@ -12,12 +12,16 @@
 /***
  * 1. Import samples and DW built trend layer ------------------------------------+-------------------------------
  */
+
+// Export projection
+var proj = ee.Projection('EPSG:3035').atScale(10)
+
+// Sample locations
 var samples = ee.FeatureCollection('projects/nina/Arena/Sampling/samples_stratified');
 Map.addLayer(samples,  {}, 'samples', 0)
 
-
+// DW built-up prob trends
 var greyTrend = ee.Image('projects/nina/Arena/grey_trend_2018_2023_v3');
-var proj =  greyTrend.projection();
 
 Map.addLayer(greyTrend, {min:-10, max:10, palette:['#d13328', 'white', '#00d6d5']}, 'trend',0)
 
@@ -269,11 +273,6 @@ var list= countries.reduceColumns(ee.Reducer.toList(), ['ISO3_CODE']).get('list'
       
       var strataImgCountry = getStrataImg(thresh-2,thresh).clip(aoi)
       
-      
-      var aoiCentroid = aoi.bounds().centroid(10)
-      var proj = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
-        .filterBounds(aoiCentroid).first().select(1).projection()
-        
       var stratAreas = getStratAreas(strataImgCountry, aoi,  10, proj);
       
       stratAreas = stratAreas.map(function(ft){
@@ -338,11 +337,6 @@ var list= countries.reduceColumns(ee.Reducer.toList(), ['ISO3_CODE']).get('list'
       var aoi = countries.filter(ee.Filter.eq('ISO3_CODE', id)).geometry();
       
       var strataImgCountry = getStrataImg(thresh,5).clip(aoi)
-      
-      
-      var aoiCentroid = aoi.bounds().centroid(10)
-      var proj = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
-        .filterBounds(aoiCentroid).first().select(1).projection()
         
       var stratAreas = getStratAreas(strataImgCountry, aoi,  10, proj);
       
