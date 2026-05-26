@@ -1,5 +1,5 @@
 # eu-dw-landtake
-Code supporting the paper "Europe’s land take: revealing loss of nature and cropland to artificial surfaces". Link to paper: XXX
+Code supporting the paper "Europe’s land take and the loss of nature and cropland to artificial surfaces". Link to paper: https://www.nature.com/articles/s41467-026-71931-w
 
 The research was conducted in collaboration with Arena for Journalism in Europe and is published as a data journalism piece here: https://greentogrey.eu/
 
